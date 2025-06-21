@@ -1528,6 +1528,8 @@
         let taxFlowActive = false;
         let taxFlowStep = 0;
 
+        
+
         // 新增函数：控制输入控件的启用/禁用状态
         function setInputControlsEnabled(enabled) {
             const mainInput = document.getElementById('mainInputField');
@@ -2511,6 +2513,25 @@ Do you agree to proceed with personalized guidance?`, 'bot', {
                 }
             });
         });
+        // 在您的聊天机器人脚本中添加消息监听
+window.addEventListener('message', function(event) {
+    // 处理来自父窗口的消息
+    if (event.data.action === 'receiveMessage') {
+        // 将消息添加到聊天界面
+        handleMainInputSubmit(event.data.message);
+    }
+});
+
+// 修改关闭按钮，使其通知父窗口
+document.getElementById('panelCloseBtn').addEventListener('click', function() {
+    // 如果在 iframe 中，通知父窗口关闭
+    if (window.parent !== window) {
+        window.parent.postMessage({ action: 'closePanel' }, '*');
+    } else {
+        // 否则执行原来的关闭逻辑
+        togglePanel();
+    }
+});
     </script>
 </body>
 
